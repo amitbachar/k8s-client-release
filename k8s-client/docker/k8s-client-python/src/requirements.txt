@@ -1,0 +1,7 @@
+datetime
+#kubernetes==2.0.0
+kubernetes
+beautifultable
+PrettyTable
+flask 
+flasgger

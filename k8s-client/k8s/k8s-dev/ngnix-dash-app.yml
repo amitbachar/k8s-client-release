@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ngnix-dash-service 
+  labels:
+    run: ngnix-dash-service 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    run: ngnix-dashboard-deployment-pods
+---
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: ngnix-dashboard-deployment 
+spec:
+  selector:
+    matchLabels:
+      run: ngnix-dashboard-deployment-pods
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: ngnix-dashboard-deployment-pods
+    spec:
+      volumes:
+      - name: html
+        persistentVolumeClaim:
+           claimName: html-claim 
+      containers:
+      - name: nginx-k8s-client-dashboard-container
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html

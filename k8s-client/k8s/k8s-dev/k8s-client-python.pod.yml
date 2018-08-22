@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k8s-client-python-pod-command
+  labels:
+    purpose: k8s-client-python-pod-command 
+spec:
+  containers:
+  - name: k8s-client-python-pod-command
+    image: k8s-client-python 
+    imagePullPolicy: "IfNotPresent"
+    command: ["./script/entry.sh"]
+#    args: ["-c", "while true; do python ./app/list_pods.py ; sleep 10;done"] 
+#    command: ["python"]
+#    args: ["./app/list_pods.py"]
+#     command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+#    volumeMounts:
+#    - mountPath: /app-data
+#      name: k8s-client-python-vol 
+#  volumes:
+#    - name: k8s-client-python-vol 
+#      hostPath:
+#        # directory location on host
+#        path: /app-data
+  restartPolicy: OnFailure

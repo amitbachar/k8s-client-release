@@ -1,0 +1,26 @@
+# Default values for k8s-client-ngnix.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+image:
+  repository: ngnix-k8s-client-python
+  tag: stable
+  pullPolicy: IfNotPresent
+service:
+  name: ngnix-dash-service
+  type: NodePort
+  nodeport: 32222
+  externalPort: 8080
+  internalPort: 80
+  label: ngnix-dash-service
+  selector: ngnix-dashboard-deployment-pods
+deployment:
+  name: ngnix-dashboard-deployment
+  replicaCount: 3
+container:
+  name: nginx-k8s-client-dashboard-container
+volume:
+  name: pvc-html
+  pvcname: html-claim
+  mountPath: /usr/share/nginx/html 
+ 
+  

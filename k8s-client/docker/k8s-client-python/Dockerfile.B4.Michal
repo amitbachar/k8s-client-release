@@ -1,0 +1,39 @@
+FROM python:alpine
+#FROM python:2.7
+MAINTAINER amitbac
+ 
+# Creating Application Source Code Directory
+RUN mkdir -p /k8s-client-python
+
+# copy sources to containers
+COPY . /k8s-client-python
+
+# Setting Home Directory for containers
+WORKDIR /k8s-client-python/src
+
+# Installing python dependencies
+RUN python --version
+RUN pip list 
+RUN chmod +x ./script/entry.sh
+RUN chmod +x ./app/Kubernetes_Python_Client-falsk.py
+
+# Copying k8s config 
+RUN cp -r /k8s-client-python/.kube /root/
+#RUN ls /root/.kube
+
+# Setting timezone
+RUN ln -sf /usr/share/zoneinfo/Israel /etc/localtime
+
+# Application Environment variables
+ENV APP_NAME k8s-client-python
+
+# Exposing Ports
+#EXPOSE 5035
+
+# Setting Persistent data
+#VOLUME ["/app-data"]
+
+ENTRYPOINT ["./script/entry.sh"]
+
+# Running Python Application
+CMD ["python", "./app/Kubernetes_Python_Client-falsk.py"]

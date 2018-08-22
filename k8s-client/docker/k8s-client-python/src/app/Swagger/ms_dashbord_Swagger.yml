@@ -1,0 +1,22 @@
+Use this api By passing namespace to get micro service dashbord (MS Dashbord)
+    ---
+    tags:
+      - ms_dashbord API
+    parameters:
+      - name: namespace
+        in: path
+        type: string
+        required: true
+        description: The namespace name you want its pods info
+    responses:
+      500:
+        description: Error The namespace is not valid!
+      200:
+        description: namespace is valid!
+        schema:
+          id: namespace_name
+          properties:
+            namespace:
+              type: string
+              description: The namespace name
+              default: default

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    #width: 100%;
+}
+
+th {
+    border: 3px solid #330000;
+    color: #006600;
+    text-align: left;
+    padding: 8px;
+    #background-color: #ffffcc;
+    background-color: #ffbf00;
+}
+
+td {
+    border: 1px solid #330000;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #00ffff;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: left;
+    vertical-align: top
+}
+</style>
+</head>
+<body>
+<table>
+<tbody>
+        <tr>
+       {% for t in title %}
+        <th>{{ t }}</th>
+       {% endfor %}
+       </tr>
+       {% for ns in namespace_list %}
+       <tr>
+        {% for item in ns %}
+       <td>{{ item }}</td>
+        {% endfor %}
+       </tr>
+       {% endfor %}
+</tbody>
+</table>
+</body>
+</html>

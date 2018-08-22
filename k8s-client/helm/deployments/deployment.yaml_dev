@@ -1,0 +1,45 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}-{{ .Values.version }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }} 
+spec:
+  selector:
+    matchLabels:
+      run: {{ .Values.service.selector }}-{{ .Values.version }} 
+  replicas: {{ .Values.deployment.replicaCount }}
+  template:
+    metadata:
+      labels:
+        run: {{ .Values.service.selector }}-{{ .Values.version }} 
+    spec:
+      volumes:
+      - name: {{ .Values.volume.name }}
+        persistentVolumeClaim:
+           claimName: {{ .Values.volume.pvcname }} 
+      - name: admin-volume
+        hostPath:
+           path: {{ .Values.pod.admin_volume_path }}
+      - name: app-volume
+        hostPath:
+           path: {{ .Values.pod.app_volume_path }} 
+      containers:
+      - name: k8s-client-python-container
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volume.name }}
+          mountPath: {{ .Values.volume.mountPath }} 
+        - name: admin-volume
+          mountPath: /admin-volume
+        - name: app-volume 
+          mountPath: /app
+        command: ["/bin/sh", "-c"]
+        args:
+          - ./script/entry.sh;
+            python /app/Kubernetes_Python_Client-falsk.py

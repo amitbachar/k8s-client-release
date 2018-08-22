@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    #width: 100%;
+}
+
+th {
+    border: 3px solid #330000;
+    color: #006600;
+    text-align: left;
+    padding: 8px;
+    background-color: #ffffcc;
+}
+
+td {
+    border: 1px solid #330000;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #00ffff;
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: left;
+    vertical-align: top
+}
+</style>
+</head>
+<body>
+<table>
+<tbody>
+       {% for node in nodes %}
+       <tr>
+       <td>{{ node }}</td>
+       </tr>       
+       {% endfor %}
+</tbody>
+</table>
+</body>
+</html>

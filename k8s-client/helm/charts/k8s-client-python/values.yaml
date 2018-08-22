@@ -1,0 +1,30 @@
+# Default values for k8s-client-python.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: default
+version: v22
+image:
+  repository: k8s-client-python
+  tag: stable
+  pullPolicy: IfNotPresent
+deployment:
+  name: k8s-client-python-deployment 
+  replicaCount: 3
+pod:
+# /users/admin is the directory hosts the k8s configuration .kube
+  admin_volume_path: /users/admin
+  app_volume_path: /users/admin/k8s-client/docker/k8s-client-python/src/app
+container:
+  name: k8s-client-python-container 
+volume:
+  name: pvc-html
+  pvcname: html-claim
+  mountPath: /usr/share/nginx/html 
+service:
+  name: k8s-client-python-service
+  type: NodePort
+  nodeport: 32222 
+  externalPort: 5555
+  internalPort: 5555
+  label: k8s-client-python-service 
+  selector: k8s-client-python-deployment-pods 

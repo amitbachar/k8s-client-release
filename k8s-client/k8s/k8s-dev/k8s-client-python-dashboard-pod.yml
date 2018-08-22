@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k8s-client-python-pod-dash
+  labels:
+    purpose: k8s-client-python-pod-dash
+spec:
+  volumes:
+  - name: html
+    emptyDir: {}
+  containers:
+  - name: nginx-k8s-client-python-dash
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+  - name: k8s-client-python-c-dash
+    image: k8s-client-python:22
+    imagePullPolicy: "IfNotPresent"
+    volumeMounts:
+    - name: html
+      mountPath: /html
+#    command: ["/bin/sh ./script/entry.sh"]
+    command: ["/bin/sh", "-c"]
+    args:
+      - ./script/entry.sh;
+        while true; do
+          date >> /html/index.html;
+          python ./app/pod_info.py >> /html/index.html;
+          sleep 22;
+        done
+  restartPolicy: OnFailure
